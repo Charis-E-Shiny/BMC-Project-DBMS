@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>STRUCTURA - Sign Up</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      background-color: #e6f3ff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      display: flex;
+      width: 800px;
+      background-color: white;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-section {
+      background-color: #007bff;
+      color: white;
+      padding: 40px 30px;
+      width: 50%;
+    }
+
+    .brand {
+      font-weight: bold;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+
+    h3 {
+      margin: 20px 0 15px;
+    }
+
+    .input-group {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      border-radius: 6px;
+      border: none;
+      margin-bottom: 10px;
+    }
+
+    button {
+      background-color: #ff9900;
+      color: white;
+      padding: 10px;
+      border: none;
+      width: 100%;
+      border-radius: 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .image-section {
+      width: 50%;
+      background-color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 30px;
+    }
+
+    .image-section img {
+      width: 100%;
+      max-width: 300px;
+    }
+
+    .error-message {
+      color: #ffcccc;
+      margin-top: 5px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="form-section">
+      <h2>Welcome to <span class="brand">STRUCTURA</span></h2>
+      <p class="subtitle">Simplifying Business Model Structuring & Planning.</p>
+      <h3>Create an Account</h3>
+      <form id="signupForm">
+        <div class="input-group">
+          <input type="text" id="name" placeholder="Name" required />
+          <input type="email" id="email" placeholder="Email" required />
+        </div>
+        <input type="password" id="password" placeholder="Password" required minlength="6"/>
+        <select id="role" required>
+          <option value="">Select Role</option>
+          <option value="admin">Admin</option>
+          <option value="business_owner">Business Owner</option>
+          <option value="investor">Investor</option>
+        </select>
+        <button type="submit">Sign Up</button>
+        <p id="error" class="error-message"></p>
+      </form>
+    </div>
+    <div class="image-section">
+      <img src="https://i.pinimg.com/736x/ab/1d/59/ab1d59733bcfd8717eca3e3d09371a03.jpg" alt="Business chart illustration" />
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("signupForm").addEventListener("submit", function (e) {
+      const role = document.getElementById("role").value;
+      const error = document.getElementById("error");
+
+      if (!role) {
+        e.preventDefault();
+        error.textContent = "Please select a valid role.";
+      } else {
+        error.textContent = "";
+      }
+    });
+  </script>
+</body>
+</html>
