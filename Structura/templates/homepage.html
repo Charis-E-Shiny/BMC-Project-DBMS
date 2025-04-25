@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Homepage</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="navbar">
+        <h2>Welcome, {{ user }}</h2>
+        <div class="nav-links">
+            <a href="{{ url_for('logout') }}">Logout</a>
+        </div>
+    </div>
+    <div class="project-list">
+        <h3>Project Dashboard</h3>
+        <div class="project-card">
+            <h4>Example Project</h4>
+            <p>This is a sample project dashboard card. You can list projects from the database here.</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,81 @@
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f2f4f8;
+  }
+  
+  .container {
+    display: flex;
+    height: 100vh;
+  }
+  
+  .form-section, .image-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+  }
+  
+  .form-section form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  input[type="email"], input[type="password"], input[type="text"] {
+    padding: 10px;
+    width: 250px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  button {
+    padding: 10px;
+    background-color: #0066ff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #004ecc;
+  }
+  
+  .error {
+    color: red;
+  }
+  
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: #003366;
+    color: white;
+  }
+  
+  .nav-links a {
+    margin-left: 20px;
+    color: white;
+    text-decoration: none;
+  }
+  
+  .nav-links a:hover {
+    text-decoration: underline;
+  }
+  
+  .project-list {
+    padding: 2rem;
+  }
+  
+  .project-card {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+  
