@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard - Structura</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      display: flex;
+      height: 100vh;
+      background-color: #f5f5f5;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 200px;
+      background-color: #dcdcdc;
+      padding: 20px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .sidebar h2 {
+      font-size: 1.1rem;
+      margin-bottom: 20px;
+      color: #002366;
+    }
+
+    .sidebar a {
+      text-decoration: none;
+      color: #000;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px;
+      border-radius: 8px;
+      transition: background 0.2s;
+    }
+
+    .sidebar a:hover {
+      background-color: #c4c4c4;
+    }
+
+    /* Topbar */
+    .topbar {
+      background-color: #e0e0e0;
+      width: 100%;
+      padding: 15px 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .topbar .logo {
+      font-weight: bold;
+      color: #002366;
+      font-size: 1.2rem;
+    }
+
+    .topbar .actions {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .topbar .actions button {
+      background-color: #4da6ff;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .topbar .profile-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background-color: #b2d8ff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Main */
+    .main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .content {
+      padding: 30px;
+    }
+
+    .content h3 {
+      margin-bottom: 20px;
+    }
+
+    .filter-buttons {
+      margin-bottom: 20px;
+      display: flex;
+      gap: 10px;
+    }
+
+    .filter-buttons button {
+      padding: 6px 12px;
+      border: 1px solid #999;
+      background-color: white;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .projects {
+      display: flex;
+      gap: 20px;
+    }
+
+    .project-card {
+      width: 200px;
+      height: 120px;
+      background-color: #ccc;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="sidebar">
+    <h2>STRUCTURA</h2>
+    <a href="#"><span>🏠</span> Home</a>
+    <a href="#"><span>📋</span> Projects</a>
+    <a href="#"><span>🕒</span> History</a>
+    <a href="#"><span>✨</span> AI Generate</a>
+    <a href="#"><span>📑</span> Templates</a>
+    <a href="#"><span>🤝</span> Collaboration</a>
+  </div>
+
+  <div class="main">
+    <div class="topbar">
+      <div class="logo"></div>
+      <div class="actions">
+        <button>Create New BMC</button>
+        <div class="profile-icon">👤</div>
+      </div>
+    </div>
+
+    <div class="content">
+      <h3>Your Projects</h3>
+      <div class="filter-buttons">
+        <button>Local</button>
+        <button>Public</button>
+        <button>Premium</button>
+      </div>
+      <div class="projects">
+        <div class="project-card"></div>
+        <div class="project-card"></div>
+        <div class="project-card"></div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
