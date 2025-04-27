@@ -1,2 +1,2 @@
 # BMC-Project-DBMS
-BMC Generator is a fullstack project that helps generate BMC for Startups
+Structura is a fullstack project that helps maintain BMCs for Startups to MNCs. (Something like a notebook for Business Minds 🤑.
