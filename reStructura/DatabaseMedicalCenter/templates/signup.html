@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block title %}Sign Up - Structura{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card auth-form">
+            <div class="card-header bg-dark text-center">
+                <h3 class="mb-0"><i class="fas fa-user-plus me-2"></i>Sign Up</h3>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('signup') }}">
+                    {{ form.hidden_tag() }}
+                    
+                    <div class="form-floating mb-3">
+                        {{ form.name(class="form-control", placeholder="Full Name", id="name") }}
+                        <label for="name">Full Name</label>
+                        {% if form.name.errors %}
+                            <div class="invalid-feedback d-block">
+                                {% for error in form.name.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="form-floating mb-3">
+                        {{ form.email(class="form-control", placeholder="Email", id="email") }}
+                        <label for="email">Email</label>
+                        {% if form.email.errors %}
+                            <div class="invalid-feedback d-block">
+                                {% for error in form.email.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="form-floating mb-3">
+                        {{ form.password(class="form-control", placeholder="Password", id="password") }}
+                        <label for="password">Password</label>
+                        {% if form.password.errors %}
+                            <div class="invalid-feedback d-block">
+                                {% for error in form.password.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="form-floating mb-3">
+                        {{ form.confirm_password(class="form-control", placeholder="Confirm Password", id="confirm_password") }}
+                        <label for="confirm_password">Confirm Password</label>
+                        {% if form.confirm_password.errors %}
+                            <div class="invalid-feedback d-block">
+                                {% for error in form.confirm_password.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="form-floating mb-3">
+                        {{ form.role(class="form-select", id="role") }}
+                        <label for="role">Role</label>
+                        {% if form.role.errors %}
+                            <div class="invalid-feedback d-block">
+                                {% for error in form.role.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="d-grid">
+                        {{ form.submit(class="btn btn-primary btn-lg") }}
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer text-center">
+                <p class="mb-0">Already have an account? <a href="{{ url_for('login') }}">Login</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

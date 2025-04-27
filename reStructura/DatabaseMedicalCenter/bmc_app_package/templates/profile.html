@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+
+{% block title %}My Profile - Structura{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-4">
+        <div class="card mb-4">
+            <div class="card-header bg-dark">
+                <h3 class="mb-0"><i class="fas fa-user-circle me-2"></i>My Profile</h3>
+            </div>
+            <div class="card-body text-center">
+                <div class="mb-4">
+                    <i class="fas fa-user-circle fa-6x text-secondary"></i>
+                </div>
+                <h4>{{ current_user.name }}</h4>
+                <p class="text-muted">{{ current_user.email }}</p>
+                <span class="badge {% if current_user.role == 'admin' %}badge-admin{% elif current_user.role == 'business_owner' %}badge-business_owner{% else %}badge-investor{% endif %} mb-3">
+                    {{ current_user.role.replace('_', ' ').title() }}
+                </span>
+                <div class="d-grid gap-2 mt-4">
+                    <button class="btn btn-primary" disabled>
+                        <i class="fas fa-edit me-2"></i>Edit Profile
+                    </button>
+                    <button class="btn btn-secondary" disabled>
+                        <i class="fas fa-key me-2"></i>Change Password
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-8">
+        <div class="card mb-4">
+            <div class="card-header bg-dark">
+                <h3 class="mb-0"><i class="fas fa-shield-alt me-2"></i>Account Information</h3>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <th style="width: 30%;">User ID:</th>
+                                <td>{{ current_user.id }}</td>
+                            </tr>
+                            <tr>
+                                <th>Full Name:</th>
+                                <td>{{ current_user.name }}</td>
+                            </tr>
+                            <tr>
+                                <th>Email:</th>
+                                <td>{{ current_user.email }}</td>
+                            </tr>
+                            <tr>
+                                <th>Role:</th>
+                                <td>{{ current_user.role.replace('_', ' ').title() }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        {% if current_user.role == 'business_owner' %}
+        <div class="card mb-4">
+            <div class="card-header bg-dark">
+                <h3 class="mb-0"><i class="fas fa-chart-line me-2"></i>Your Activity</h3>
+            </div>
+            <div class="card-body">
+                <p class="lead text-center">Activity statistics coming soon!</p>
+                <div class="text-center mt-4">
+                    <a href="{{ url_for('dashboard') }}" class="btn btn-primary">
+                        <i class="fas fa-tachometer-alt me-2"></i>Go to Dashboard
+                    </a>
+                    <a href="{{ url_for('create_model') }}" class="btn btn-success ms-2">
+                        <i class="fas fa-plus me-2"></i>Create New Model
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% elif current_user.role == 'investor' %}
+        <div class="card mb-4">
+            <div class="card-header bg-dark">
+                <h3 class="mb-0"><i class="fas fa-search-dollar me-2"></i>Investment Insights</h3>
+            </div>
+            <div class="card-body">
+                <p class="lead text-center">Investment tracking and analytics coming soon!</p>
+                <div class="text-center mt-4">
+                    <a href="{{ url_for('dashboard') }}" class="btn btn-primary">
+                        <i class="fas fa-tachometer-alt me-2"></i>Explore Business Models
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+{% if current_user.role == 'admin' %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header bg-dark">
+                <h3 class="mb-0"><i class="fas fa-cogs me-2"></i>Admin Controls</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card mb-3">
+                            <div class="card-body text-center">
+                                <i class="fas fa-users-cog fa-3x mb-3 text-primary"></i>
+                                <h5>User Management</h5>
+                                <p class="small">Manage user accounts and permissions</p>
+                                <a href="{{ url_for('admin_dashboard') }}" class="btn btn-primary btn-sm">Access</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card mb-3">
+                            <div class="card-body text-center">
+                                <i class="fas fa-sitemap fa-3x mb-3 text-success"></i>
+                                <h5>Business Models</h5>
+                                <p class="small">Review and manage all business models</p>
+                                <a href="{{ url_for('admin_dashboard') }}" class="btn btn-success btn-sm">Access</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card mb-3">
+                            <div class="card-body text-center">
+                                <i class="fas fa-cog fa-3x mb-3 text-info"></i>
+                                <h5>System Settings</h5>
+                                <p class="small">Configure system parameters</p>
+                                <button class="btn btn-info btn-sm" disabled>Coming Soon</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

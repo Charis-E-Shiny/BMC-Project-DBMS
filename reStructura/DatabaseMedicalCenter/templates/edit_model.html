@@ -1,0 +1,358 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit Business Model - Structura{% endblock %}
+
+{% block content %}
+<div class="row align-items-center mb-4">
+    <div class="col">
+        <h1 class="display-6">{{ model[2] }}</h1>
+        <p class="lead text-muted">Industry: {{ model[3] }}</p>
+    </div>
+    <div class="col-auto">
+        <a href="{{ url_for('view_model', model_id=model_id) }}" class="btn btn-info">
+            <i class="fas fa-eye me-2"></i>View Mode
+        </a>
+        <a href="{{ url_for('dashboard') }}" class="btn btn-secondary ms-2">
+            <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
+        </a>
+    </div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header bg-dark">
+        <h3 class="mb-0"><i class="fas fa-edit me-2"></i>Edit Business Model Canvas</h3>
+    </div>
+    <div class="card-body p-0">
+        <!-- Business Model Canvas Grid -->
+        <div class="business-model-grid">
+            <!-- Key Partners -->
+            <div class="bmc-card area-key-partners p-3">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5><i class="fas fa-building me-2"></i>Key Partners</h5>
+                    <a href="{{ url_for('add_component', model_id=model_id, component_type='key_partnership') }}" class="btn btn-sm btn-outline-primary">
+                        <i class="fas fa-plus"></i>
+                    </a>
+                </div>
+                <div class="bmc-content">
+                    {% if components.key_partnerships %}
+                        {% for partner in components.key_partnerships %}
+                            <div class="bmc-component">
+                                <h6>{{ partner[2] }}</h6>
+                                <div class="component-actions">
+                                    <form method="POST" action="{{ url_for('delete_component', model_id=model_id, component_type='key_partnership', component_id=partner[0]) }}" onsubmit="return confirmDelete(event, 'partner', '{{ partner[2] }}')">
+                                        <button type="submit" class="btn btn-sm btn-danger">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-muted small">No key partnerships added yet. Click the + button to add one.</p>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- Key Activities -->
+            <div class="bmc-card area-key-activities p-3">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5><i class="fas fa-tasks me-2"></i>Key Activities</h5>
+                    <a href="{{ url_for('add_component', model_id=model_id, component_type='key_activity') }}" class="btn btn-sm btn-outline-primary">
+                        <i class="fas fa-plus"></i>
+                    </a>
+                </div>
+                <div class="bmc-content">
+                    {% if components.key_activities %}
+                        {% for activity in components.key_activities %}
+                            <div class="bmc-component">
+                                <h6>{{ activity[2] }}</h6>
+                                <p class="small">{{ activity[3] | truncate(100) }}</p>
+                                <div class="component-actions">
+                                    <button class="btn btn-sm btn-info" onclick="toggleDescription('activity-{{ activity[0] }}')">
+                                        <i class="fas fa-info-circle"></i>
+                                    </button>
+                                    <form method="POST" action="{{ url_for('delete_component', model_id=model_id, component_type='key_activity', component_id=activity[0]) }}" onsubmit="return confirmDelete(event, 'activity', '{{ activity[2] }}')">
+                                        <button type="submit" class="btn btn-sm btn-danger">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                                <div id="activity-{{ activity[0] }}" class="d-none mt-2">
+                                    <p class="small">{{ activity[3] }}</p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-muted small">No key activities added yet. Click the + button to add one.</p>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- Key Resources -->
+            <div class="bmc-card area-key-resources p-3">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5><i class="fas fa-box me-2"></i>Key Resources</h5>
+                    <a href="{{ url_for('add_component', model_id=model_id, component_type='key_resource') }}" class="btn btn-sm btn-outline-primary">
+                        <i class="fas fa-plus"></i>
+                    </a>
+                </div>
+                <div class="bmc-content">
+                    {% if components.key_resources %}
+                        {% for resource in components.key_resources %}
+                            <div class="bmc-component">
+                                <h6>{{ resource[2] }}</h6>
+                                <p class="small">{{ resource[3] | truncate(100) }}</p>
+                                <div class="component-actions">
+                                    <button class="btn btn-sm btn-info" onclick="toggleDescription('resource-{{ resource[0] }}')">
+                                        <i class="fas fa-info-circle"></i>
+                                    </button>
+                                    <form method="POST" action="{{ url_for('delete_component', model_id=model_id, component_type='key_resource', component_id=resource[0]) }}" onsubmit="return confirmDelete(event, 'resource', '{{ resource[2] }}')">
+                                        <button type="submit" class="btn btn-sm btn-danger">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                                <div id="resource-{{ resource[0] }}" class="d-none mt-2">
+                                    <p class="small">{{ resource[3] }}</p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-muted small">No key resources added yet. Click the + button to add one.</p>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- Value Propositions -->
+            <div class="bmc-card area-value-propositions p-3">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5><i class="fas fa-gift me-2"></i>Value Propositions</h5>
+                    <a href="{{ url_for('add_component', model_id=model_id, component_type='value_proposition') }}" class="btn btn-sm btn-outline-primary">
+                        <i class="fas fa-plus"></i>
+                    </a>
+                </div>
+                <div class="bmc-content">
+                    {% if components.value_propositions %}
+                        {% for vp in components.value_propositions %}
+                            <div class="bmc-component">
+                                <h6>{{ vp[2] }}</h6>
+                                <p class="small">{{ vp[3] | truncate(100) }}</p>
+                                <div class="component-actions">
+                                    <button class="btn btn-sm btn-info" onclick="toggleDescription('vp-{{ vp[0] }}')">
+                                        <i class="fas fa-info-circle"></i>
+                                    </button>
+                                    <form method="POST" action="{{ url_for('delete_component', model_id=model_id, component_type='value_proposition', component_id=vp[0]) }}" onsubmit="return confirmDelete(event, 'value proposition', '{{ vp[2] }}')">
+                                        <button type="submit" class="btn btn-sm btn-danger">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                                <div id="vp-{{ vp[0] }}" class="d-none mt-2">
+                                    <p class="small">{{ vp[3] }}</p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-muted small">No value propositions added yet. Click the + button to add one.</p>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- Customer Relationships -->
+            <div class="bmc-card area-customer-relationships p-3">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5><i class="fas fa-handshake me-2"></i>Customer Relationships</h5>
+                    <a href="{{ url_for('add_component', model_id=model_id, component_type='customer_relationship') }}" class="btn btn-sm btn-outline-primary">
+                        <i class="fas fa-plus"></i>
+                    </a>
+                </div>
+                <div class="bmc-content">
+                    {% if components.customer_relationships %}
+                        {% for cr in components.customer_relationships %}
+                            <div class="bmc-component">
+                                <h6>{{ cr[2] }}</h6>
+                                <p class="small">{{ cr[3] | truncate(100) }}</p>
+                                <div class="component-actions">
+                                    <button class="btn btn-sm btn-info" onclick="toggleDescription('cr-{{ cr[0] }}')">
+                                        <i class="fas fa-info-circle"></i>
+                                    </button>
+                                    <form method="POST" action="{{ url_for('delete_component', model_id=model_id, component_type='customer_relationship', component_id=cr[0]) }}" onsubmit="return confirmDelete(event, 'customer relationship', '{{ cr[2] }}')">
+                                        <button type="submit" class="btn btn-sm btn-danger">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                                <div id="cr-{{ cr[0] }}" class="d-none mt-2">
+                                    <p class="small">{{ cr[3] }}</p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-muted small">No customer relationships added yet. Click the + button to add one.</p>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- Channels -->
+            <div class="bmc-card area-channels p-3">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5><i class="fas fa-road me-2"></i>Channels</h5>
+                    <a href="{{ url_for('add_component', model_id=model_id, component_type='channel') }}" class="btn btn-sm btn-outline-primary">
+                        <i class="fas fa-plus"></i>
+                    </a>
+                </div>
+                <div class="bmc-content">
+                    {% if components.channels %}
+                        {% for channel in components.channels %}
+                            <div class="bmc-component">
+                                <h6>{{ channel[2] }}</h6>
+                                <p class="small">{{ channel[3] | truncate(100) }}</p>
+                                <div class="component-actions">
+                                    <button class="btn btn-sm btn-info" onclick="toggleDescription('channel-{{ channel[0] }}')">
+                                        <i class="fas fa-info-circle"></i>
+                                    </button>
+                                    <form method="POST" action="{{ url_for('delete_component', model_id=model_id, component_type='channel', component_id=channel[0]) }}" onsubmit="return confirmDelete(event, 'channel', '{{ channel[2] }}')">
+                                        <button type="submit" class="btn btn-sm btn-danger">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                                <div id="channel-{{ channel[0] }}" class="d-none mt-2">
+                                    <p class="small">{{ channel[3] }}</p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-muted small">No channels added yet. Click the + button to add one.</p>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- Customer Segments -->
+            <div class="bmc-card area-customer-segments p-3">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5><i class="fas fa-users me-2"></i>Customer Segments</h5>
+                    <a href="{{ url_for('add_component', model_id=model_id, component_type='customer_segment') }}" class="btn btn-sm btn-outline-primary">
+                        <i class="fas fa-plus"></i>
+                    </a>
+                </div>
+                <div class="bmc-content">
+                    {% if components.customer_segments %}
+                        {% for segment in components.customer_segments %}
+                            <div class="bmc-component">
+                                <h6>{{ segment[2] }}</h6>
+                                <p class="small">{{ segment[3] | truncate(100) }}</p>
+                                <div class="component-actions">
+                                    <button class="btn btn-sm btn-info" onclick="toggleDescription('segment-{{ segment[0] }}')">
+                                        <i class="fas fa-info-circle"></i>
+                                    </button>
+                                    <form method="POST" action="{{ url_for('delete_component', model_id=model_id, component_type='customer_segment', component_id=segment[0]) }}" onsubmit="return confirmDelete(event, 'customer segment', '{{ segment[2] }}')">
+                                        <button type="submit" class="btn btn-sm btn-danger">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                                <div id="segment-{{ segment[0] }}" class="d-none mt-2">
+                                    <p class="small">{{ segment[3] }}</p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-muted small">No customer segments added yet. Click the + button to add one.</p>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- Cost Structure -->
+            <div class="bmc-card area-cost-structure p-3">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5><i class="fas fa-file-invoice-dollar me-2"></i>Cost Structure</h5>
+                    <a href="{{ url_for('add_component', model_id=model_id, component_type='cost_structure') }}" class="btn btn-sm btn-outline-primary">
+                        <i class="fas fa-plus"></i>
+                    </a>
+                </div>
+                <div class="bmc-content">
+                    {% if components.cost_structure %}
+                        {% for cost in components.cost_structure %}
+                            <div class="bmc-component">
+                                <div class="d-flex justify-content-between">
+                                    <h6>{{ cost[2] }}</h6>
+                                    <span class="cost-amount badge bg-danger" data-amount="{{ cost[3] }}">
+                                        ${{ '%0.2f'|format(cost[3]|float) }}
+                                    </span>
+                                </div>
+                                <div class="component-actions">
+                                    <form method="POST" action="{{ url_for('delete_component', model_id=model_id, component_type='cost_structure', component_id=cost[0]) }}" onsubmit="return confirmDelete(event, 'cost', '{{ cost[2] }}')">
+                                        <button type="submit" class="btn btn-sm btn-danger">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        <div class="mt-3 p-2 bg-dark">
+                            <div class="d-flex justify-content-between">
+                                <h6>Total Costs:</h6>
+                                <span id="total-cost" class="badge bg-danger">$0.00</span>
+                            </div>
+                        </div>
+                    {% else %}
+                        <p class="text-muted small">No cost structure added yet. Click the + button to add one.</p>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- Revenue Streams -->
+            <div class="bmc-card area-revenue-streams p-3">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5><i class="fas fa-money-bill-wave me-2"></i>Revenue Streams</h5>
+                    <a href="{{ url_for('add_component', model_id=model_id, component_type='revenue_stream') }}" class="btn btn-sm btn-outline-primary">
+                        <i class="fas fa-plus"></i>
+                    </a>
+                </div>
+                <div class="bmc-content">
+                    {% if components.revenue_streams %}
+                        {% for revenue in components.revenue_streams %}
+                            <div class="bmc-component">
+                                <div class="d-flex justify-content-between">
+                                    <h6>{{ revenue[2] }}</h6>
+                                    <span class="revenue-amount badge bg-success" data-amount="{{ revenue[3] }}">
+                                        ${{ '%0.2f'|format(revenue[3]|float) }}
+                                    </span>
+                                </div>
+                                <div class="component-actions">
+                                    <form method="POST" action="{{ url_for('delete_component', model_id=model_id, component_type='revenue_stream', component_id=revenue[0]) }}" onsubmit="return confirmDelete(event, 'revenue stream', '{{ revenue[2] }}')">
+                                        <button type="submit" class="btn btn-sm btn-danger">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        <div class="mt-3 p-2 bg-dark">
+                            <div class="d-flex justify-content-between">
+                                <h6>Total Revenue:</h6>
+                                <span id="total-revenue" class="badge bg-success">$0.00</span>
+                            </div>
+                            <div class="d-flex justify-content-between mt-2">
+                                <h6>Profit/Loss:</h6>
+                                <span id="total-profit" class="badge bg-info">$0.00</span>
+                            </div>
+                        </div>
+                    {% else %}
+                        <p class="text-muted small">No revenue streams added yet. Click the + button to add one.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        calculateTotals();
+    });
+</script>
+{% endblock %}

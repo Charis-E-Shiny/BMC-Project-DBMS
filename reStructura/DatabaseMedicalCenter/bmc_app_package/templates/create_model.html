@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+
+{% block title %}Create Business Model - Structura{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-dark">
+                <h3 class="mb-0"><i class="fas fa-plus-circle me-2"></i>Create New Business Model</h3>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('create_model') }}">
+                    {{ form.hidden_tag() }}
+                    
+                    <div class="form-floating mb-3">
+                        {{ form.business_name(class="form-control", placeholder="Business Name", id="business_name") }}
+                        <label for="business_name">Business Name</label>
+                        {% if form.business_name.errors %}
+                            <div class="invalid-feedback d-block">
+                                {% for error in form.business_name.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="form-floating mb-3">
+                        {{ form.industry(class="form-control", placeholder="Industry", id="industry") }}
+                        <label for="industry">Industry</label>
+                        {% if form.industry.errors %}
+                            <div class="invalid-feedback d-block">
+                                {% for error in form.industry.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="d-flex justify-content-between">
+                        <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
+                        </a>
+                        {{ form.submit(class="btn btn-primary") }}
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <div class="card mt-4">
+            <div class="card-header bg-dark">
+                <h4 class="mb-0"><i class="fas fa-info-circle me-2"></i>What is a Business Model Canvas?</h4>
+            </div>
+            <div class="card-body">
+                <p>A Business Model Canvas is a strategic management template used for developing new business models and documenting existing ones. It offers a visual chart with elements describing a firm's value proposition, infrastructure, customers, and finances.</p>
+                
+                <h5>The nine building blocks of the Business Model Canvas:</h5>
+                <div class="row row-cols-1 row-cols-md-3 g-4 mt-2">
+                    <div class="col">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h6 class="card-title"><i class="fas fa-users me-2"></i>Customer Segments</h6>
+                                <p class="card-text small">The different groups of people or organizations an enterprise aims to reach and serve.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h6 class="card-title"><i class="fas fa-gift me-2"></i>Value Propositions</h6>
+                                <p class="card-text small">The bundle of products and services that create value for a specific Customer Segment.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h6 class="card-title"><i class="fas fa-road me-2"></i>Channels</h6>
+                                <p class="card-text small">How a company communicates with and reaches its Customer Segments to deliver a Value Proposition.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h6 class="card-title"><i class="fas fa-handshake me-2"></i>Customer Relationships</h6>
+                                <p class="card-text small">The types of relationships a company establishes with specific Customer Segments.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h6 class="card-title"><i class="fas fa-money-bill-wave me-2"></i>Revenue Streams</h6>
+                                <p class="card-text small">The cash a company generates from each Customer Segment.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h6 class="card-title"><i class="fas fa-box me-2"></i>Key Resources</h6>
+                                <p class="card-text small">The most important assets required to make a business model work.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h6 class="card-title"><i class="fas fa-tasks me-2"></i>Key Activities</h6>
+                                <p class="card-text small">The most important things a company must do to make its business model work.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h6 class="card-title"><i class="fas fa-building me-2"></i>Key Partnerships</h6>
+                                <p class="card-text small">The network of suppliers and partners that make the business model work.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h6 class="card-title"><i class="fas fa-file-invoice-dollar me-2"></i>Cost Structure</h6>
+                                <p class="card-text small">All costs incurred to operate a business model.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

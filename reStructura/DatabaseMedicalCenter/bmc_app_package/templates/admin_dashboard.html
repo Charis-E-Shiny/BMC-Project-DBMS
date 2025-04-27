@@ -1,0 +1,232 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin Dashboard - Structura{% endblock %}
+
+{% block content %}
+<div class="row align-items-center mb-4">
+    <div class="col">
+        <h1 class="display-5"><i class="fas fa-users-cog me-3"></i>Admin Dashboard</h1>
+        <p class="lead text-muted">Manage users and business models</p>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="card bg-dark">
+            <div class="card-header">
+                <h3><i class="fas fa-tachometer-alt me-2"></i>System Overview</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card bg-primary text-white mb-3">
+                            <div class="card-body text-center">
+                                <h1 class="display-4">{{ users|length }}</h1>
+                                <p class="lead">Total Users</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card bg-success text-white mb-3">
+                            <div class="card-body text-center">
+                                <h1 class="display-4">{{ models|length }}</h1>
+                                <p class="lead">Business Models</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card bg-info text-white mb-3">
+                            <div class="card-body text-center">
+                                <h1 class="display-4">
+                                    {% set business_owners = 0 %}
+                                    {% for user in users %}
+                                        {% if user[3] == 'business_owner' %}
+                                            {% set business_owners = business_owners + 1 %}
+                                        {% endif %}
+                                    {% endfor %}
+                                    {{ business_owners }}
+                                </h1>
+                                <p class="lead">Business Owners</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card mb-4">
+            <div class="card-header bg-dark">
+                <h3><i class="fas fa-users me-2"></i>User Management</h3>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover mb-0">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for user in users %}
+                                <tr>
+                                    <td>{{ user[0] }}</td>
+                                    <td>{{ user[1] }}</td>
+                                    <td>{{ user[2] }}</td>
+                                    <td>
+                                        <span class="badge {% if user[3] == 'admin' %}badge-admin{% elif user[3] == 'business_owner' %}badge-business_owner{% else %}badge-investor{% endif %}">
+                                            {{ user[3]|replace('_', ' ')|title }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm">
+                                            <button class="btn btn-info" title="View User" disabled>
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="btn btn-primary" title="Edit User" disabled>
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-6">
+        <div class="card mb-4">
+            <div class="card-header bg-dark">
+                <h3><i class="fas fa-sitemap me-2"></i>Business Models</h3>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover mb-0">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Owner</th>
+                                <th>Created</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for model in models %}
+                                <tr>
+                                    <td>{{ model[0] }}</td>
+                                    <td>{{ model[1] }}</td>
+                                    <td>{{ model[2] }}</td>
+                                    <td>{{ model[3].strftime('%b %d, %Y') }}</td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm">
+                                            <a href="{{ url_for('view_model', model_id=model[0]) }}" class="btn btn-info" title="View Model">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                            <a href="{{ url_for('edit_model', model_id=model[0]) }}" class="btn btn-primary" title="Edit Model">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <form method="POST" action="{{ url_for('delete_model', model_id=model[0]) }}" onsubmit="return confirmDelete(event, 'business model', '{{ model[1] }}')">
+                                                <button type="submit" class="btn btn-danger" title="Delete Model">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header bg-dark">
+                <h3><i class="fas fa-chart-line me-2"></i>System Statistics</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5>User Distribution</h5>
+                        <div class="table-responsive">
+                            <table class="table table-sm">
+                                <thead>
+                                    <tr>
+                                        <th>Role</th>
+                                        <th>Count</th>
+                                        <th>Percentage</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% set admin_count = 0 %}
+                                    {% set business_owner_count = 0 %}
+                                    {% set investor_count = 0 %}
+                                    
+                                    {% for user in users %}
+                                        {% if user[3] == 'admin' %}
+                                            {% set admin_count = admin_count + 1 %}
+                                        {% elif user[3] == 'business_owner' %}
+                                            {% set business_owner_count = business_owner_count + 1 %}
+                                        {% elif user[3] == 'investor' %}
+                                            {% set investor_count = investor_count + 1 %}
+                                        {% endif %}
+                                    {% endfor %}
+                                    
+                                    <tr>
+                                        <td>Admin</td>
+                                        <td>{{ admin_count }}</td>
+                                        <td>{{ (admin_count / users|length * 100) | round(1) }}%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Business Owner</td>
+                                        <td>{{ business_owner_count }}</td>
+                                        <td>{{ (business_owner_count / users|length * 100) | round(1) }}%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Investor</td>
+                                        <td>{{ investor_count }}</td>
+                                        <td>{{ (investor_count / users|length * 100) | round(1) }}%</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <h5>Business Model Activities</h5>
+                        <p>Total Business Models: {{ models|length }}</p>
+                        <p>Average Components per Model: <span class="badge bg-info">Coming Soon</span></p>
+                        <p>Most Recent Model: 
+                            {% if models %}
+                                "{{ models[0][1] }}" by {{ models[0][2] }} on {{ models[0][3].strftime('%b %d, %Y') }}
+                            {% else %}
+                                None created yet
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer text-center">
+                <p class="mb-0">
+                    <i class="fas fa-info-circle me-1"></i>
+                    This is a simplified admin dashboard. Additional management features will be available in future updates.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

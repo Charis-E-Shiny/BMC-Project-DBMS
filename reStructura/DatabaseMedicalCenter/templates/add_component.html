@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+
+{% block title %}Add {{ component_type|replace('_', ' ')|title }} - Structura{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-dark">
+                <h3 class="mb-0">
+                    <i class="fas fa-plus-circle me-2"></i>
+                    Add {{ component_type|replace('_', ' ')|title }}
+                </h3>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('add_component', model_id=model_id, component_type=component_type) }}">
+                    {{ form.hidden_tag() }}
+                    
+                    <div class="form-floating mb-3">
+                        {{ form.name(class="form-control", placeholder="Name", id="name") }}
+                        <label for="name">Name</label>
+                        {% if form.name.errors %}
+                            <div class="invalid-feedback d-block">
+                                {% for error in form.name.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    {% if component_type != 'key_partnership' %}
+                        {% if component_type in ['revenue_stream', 'cost_structure'] %}
+                            <div class="form-floating mb-3">
+                                {{ form.amount(class="form-control", placeholder="Amount", id="amount", type="number", step="0.01") }}
+                                <label for="amount">Amount</label>
+                                {% if form.amount.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {% for error in form.amount.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% else %}
+                            <div class="form-floating mb-3">
+                                {{ form.description(class="form-control", placeholder="Description", id="description", style="height: 150px;") }}
+                                <label for="description">Description</label>
+                                {% if form.description.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {% for error in form.description.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                    
+                    <div class="d-flex justify-content-between">
+                        <a href="{{ url_for('edit_model', model_id=model_id) }}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left me-2"></i>Back to Model
+                        </a>
+                        {{ form.submit(class="btn btn-primary") }}
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <div class="card mt-4">
+            <div class="card-header bg-dark">
+                <h4 class="mb-0"><i class="fas fa-info-circle me-2"></i>About {{ component_type|replace('_', ' ')|title }}</h4>
+            </div>
+            <div class="card-body">
+                {% if component_type == 'customer_segment' %}
+                    <p>Customer segments are the different groups of people or organizations an enterprise aims to reach and serve. Customers comprise the heart of any business model. Without profitable customers, no company can survive for long.</p>
+                    <p><strong>Examples:</strong> Mass market, Niche market, Segmented, Diversified, Multi-sided platforms</p>
+                {% elif component_type == 'value_proposition' %}
+                    <p>Value propositions are the products and services that create value for a specific customer segment. A value proposition creates value for a customer segment through a distinct mix of elements catering to that segment's needs.</p>
+                    <p><strong>Examples:</strong> Newness, Performance, Customization, Design, Brand/Status, Price, Cost reduction, Risk reduction, Accessibility, Convenience/Usability</p>
+                {% elif component_type == 'channel' %}
+                    <p>Channels describe how a company communicates with and reaches its customer segments to deliver a value proposition. Communication, distribution, and sales channels comprise a company's interface with customers.</p>
+                    <p><strong>Examples:</strong> Sales force, Web sales, Own stores, Partner stores, Wholesaler</p>
+                {% elif component_type == 'customer_relationship' %}
+                    <p>Customer relationships describe the types of relationships a company establishes with specific customer segments. A company should clarify the type of relationship it wants to establish with each customer segment.</p>
+                    <p><strong>Examples:</strong> Personal assistance, Dedicated personal assistance, Self-service, Automated services, Communities, Co-creation</p>
+                {% elif component_type == 'revenue_stream' %}
+                    <p>Revenue streams represent the cash a company generates from each customer segment. If customers comprise the heart of a business model, revenue streams are its arteries.</p>
+                    <p><strong>Examples:</strong> Asset sale, Usage fee, Subscription fee, Lending/Renting/Leasing, Licensing, Brokerage fees, Advertising</p>
+                {% elif component_type == 'key_resource' %}
+                    <p>Key resources describe the most important assets required to make a business model work. Every business model requires key resources. These resources allow an enterprise to create and offer a value proposition, reach markets, maintain relationships with customer segments, and earn revenues.</p>
+                    <p><strong>Examples:</strong> Physical (e.g., manufacturing facilities), Intellectual (e.g., brands, patents), Human, Financial</p>
+                {% elif component_type == 'key_activity' %}
+                    <p>Key activities describe the most important things a company must do to make its business model work. Every business model calls for a number of key activities.</p>
+                    <p><strong>Examples:</strong> Production, Problem solving, Platform/Network</p>
+                {% elif component_type == 'key_partnership' %}
+                    <p>Key partnerships describe the network of suppliers and partners that make the business model work. Companies forge partnerships for many reasons, and partnerships are becoming a cornerstone of many business models.</p>
+                    <p><strong>Examples:</strong> Strategic alliances between non-competitors, Coopetition: strategic partnerships between competitors, Joint ventures to develop new businesses, Buyer-supplier relationships to assure reliable supplies</p>
+                {% elif component_type == 'cost_structure' %}
+                    <p>Cost structure describes all costs incurred to operate a business model. Creating and delivering value, maintaining customer relationships, and generating revenue all incur costs.</p>
+                    <p><strong>Examples:</strong> Cost-driven (focus on minimizing costs), Value-driven (focus on creating value), Fixed costs, Variable costs, Economies of scale, Economies of scope</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

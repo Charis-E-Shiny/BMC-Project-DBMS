@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - Structura{% endblock %}
+
+{% block content %}
+<div class="row align-items-center mb-4">
+    <div class="col">
+        <h1 class="display-5"><i class="fas fa-tachometer-alt me-3"></i>Your Dashboard</h1>
+        <p class="lead text-muted">
+            {% if current_user.role == 'business_owner' %}
+                Manage your business models or create a new one
+            {% elif current_user.role == 'investor' %}
+                View and analyze business models
+            {% endif %}
+        </p>
+    </div>
+    {% if current_user.role == 'business_owner' %}
+    <div class="col-auto">
+        <a href="{{ url_for('create_model') }}" class="btn btn-primary">
+            <i class="fas fa-plus me-2"></i>New Business Model
+        </a>
+    </div>
+    {% endif %}
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="card bg-dark">
+            <div class="card-body">
+                <h5 class="card-title"><i class="fas fa-info-circle me-2"></i>Welcome to Structura</h5>
+                <p class="card-text">
+                    Structura is a powerful tool for creating and managing Business Model Canvases.
+                    {% if current_user.role == 'business_owner' %}
+                        Get started by creating a new business model or continue working on your existing models.
+                    {% elif current_user.role == 'investor' %}
+                        Browse through business models to discover investment opportunities.
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if models %}
+    <h3 class="mb-3">
+        {% if current_user.role == 'business_owner' %}
+            Your Business Models
+        {% elif current_user.role == 'investor' %}
+            Available Business Models
+        {% endif %}
+    </h3>
+    
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        {% for model in models %}
+            <div class="col">
+                <div class="card h-100 model-card">
+                    <div class="card-header bg-dark d-flex justify-content-between align-items-center">
+                        <h5 class="card-title mb-0">{{ model[1] }}</h5>
+                        <span class="badge bg-info">{{ model[2] }}</span>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">
+                            <small class="text-muted">
+                                <i class="fas fa-calendar me-1"></i> Created: {{ model[3].strftime('%b %d, %Y') }}
+                            </small>
+                        </p>
+                        {% if current_user.role == 'investor' %}
+                            <p class="card-text">
+                                <small class="text-muted">
+                                    <i class="fas fa-user me-1"></i> Owner: {{ model[4] }}
+                                </small>
+                            </p>
+                        {% endif %}
+                    </div>
+                    <div class="card-footer bg-dark border-top-0">
+                        <div class="d-flex justify-content-between">
+                            <a href="{{ url_for('view_model', model_id=model[0]) }}" class="btn btn-info">
+                                <i class="fas fa-eye me-1"></i> View
+                            </a>
+                            {% if current_user.role != 'investor' %}
+                                <a href="{{ url_for('edit_model', model_id=model[0]) }}" class="btn btn-primary">
+                                    <i class="fas fa-edit me-1"></i> Edit
+                                </a>
+                                <form method="POST" action="{{ url_for('delete_model', model_id=model[0]) }}" onsubmit="return confirmDelete(event, 'business model', '{{ model[1] }}')">
+                                    <button type="submit" class="btn btn-danger">
+                                        <i class="fas fa-trash-alt me-1"></i> Delete
+                                    </button>
+                                </form>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="alert alert-info">
+        {% if current_user.role == 'business_owner' %}
+            <h4 class="alert-heading"><i class="fas fa-info-circle me-2"></i>No business models yet</h4>
+            <p>Get started by creating your first business model canvas.</p>
+            <hr>
+            <a href="{{ url_for('create_model') }}" class="btn btn-primary">
+                <i class="fas fa-plus me-2"></i>Create Business Model
+            </a>
+        {% elif current_user.role == 'investor' %}
+            <h4 class="alert-heading"><i class="fas fa-info-circle me-2"></i>No business models available</h4>
+            <p>There are currently no business models available to view.</p>
+        {% endif %}
+    </div>
+{% endif %}
+
+{% if current_user.role == 'business_owner' %}
+    <a href="{{ url_for('create_model') }}" class="btn btn-primary btn-floating">
+        <i class="fas fa-plus"></i>
+    </a>
+{% endif %}
+{% endblock %}

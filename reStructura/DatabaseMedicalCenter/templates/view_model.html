@@ -1,0 +1,335 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ model[2] }} - Structura{% endblock %}
+
+{% block content %}
+<div class="row align-items-center mb-4">
+    <div class="col">
+        <h1 class="display-6">{{ model[2] }}</h1>
+        <p class="lead text-muted">Industry: {{ model[3] }}</p>
+        <p class="text-muted">
+            <i class="fas fa-user me-1"></i> Created by: {{ model[5] }}
+            <br>
+            <i class="fas fa-calendar me-1"></i> Created on: {{ model[4].strftime('%b %d, %Y') }}
+        </p>
+    </div>
+    <div class="col-auto">
+        {% if current_user.role != 'investor' and (current_user.role == 'admin' or current_user.id == model[1]) %}
+            <a href="{{ url_for('edit_model', model_id=model[0]) }}" class="btn btn-primary">
+                <i class="fas fa-edit me-2"></i>Edit Model
+            </a>
+        {% endif %}
+        <a href="{{ url_for('dashboard') }}" class="btn btn-secondary ms-2">
+            <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
+        </a>
+    </div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header bg-dark">
+        <h3 class="mb-0"><i class="fas fa-sitemap me-2"></i>Business Model Canvas</h3>
+    </div>
+    <div class="card-body p-0">
+        <!-- Business Model Canvas Grid -->
+        <div class="business-model-grid">
+            <!-- Key Partners -->
+            <div class="bmc-card area-key-partners p-3">
+                <h5><i class="fas fa-building me-2"></i>Key Partners</h5>
+                <div class="bmc-content">
+                    {% if components.key_partnerships %}
+                        {% for partner in components.key_partnerships %}
+                            <div class="bmc-component">
+                                <h6>{{ partner[2] }}</h6>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-muted small">No key partnerships defined.</p>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- Key Activities -->
+            <div class="bmc-card area-key-activities p-3">
+                <h5><i class="fas fa-tasks me-2"></i>Key Activities</h5>
+                <div class="bmc-content">
+                    {% if components.key_activities %}
+                        {% for activity in components.key_activities %}
+                            <div class="bmc-component">
+                                <h6>{{ activity[2] }}</h6>
+                                <p class="small">{{ activity[3] }}</p>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-muted small">No key activities defined.</p>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- Key Resources -->
+            <div class="bmc-card area-key-resources p-3">
+                <h5><i class="fas fa-box me-2"></i>Key Resources</h5>
+                <div class="bmc-content">
+                    {% if components.key_resources %}
+                        {% for resource in components.key_resources %}
+                            <div class="bmc-component">
+                                <h6>{{ resource[2] }}</h6>
+                                <p class="small">{{ resource[3] }}</p>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-muted small">No key resources defined.</p>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- Value Propositions -->
+            <div class="bmc-card area-value-propositions p-3">
+                <h5><i class="fas fa-gift me-2"></i>Value Propositions</h5>
+                <div class="bmc-content">
+                    {% if components.value_propositions %}
+                        {% for vp in components.value_propositions %}
+                            <div class="bmc-component">
+                                <h6>{{ vp[2] }}</h6>
+                                <p class="small">{{ vp[3] }}</p>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-muted small">No value propositions defined.</p>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- Customer Relationships -->
+            <div class="bmc-card area-customer-relationships p-3">
+                <h5><i class="fas fa-handshake me-2"></i>Customer Relationships</h5>
+                <div class="bmc-content">
+                    {% if components.customer_relationships %}
+                        {% for cr in components.customer_relationships %}
+                            <div class="bmc-component">
+                                <h6>{{ cr[2] }}</h6>
+                                <p class="small">{{ cr[3] }}</p>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-muted small">No customer relationships defined.</p>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- Channels -->
+            <div class="bmc-card area-channels p-3">
+                <h5><i class="fas fa-road me-2"></i>Channels</h5>
+                <div class="bmc-content">
+                    {% if components.channels %}
+                        {% for channel in components.channels %}
+                            <div class="bmc-component">
+                                <h6>{{ channel[2] }}</h6>
+                                <p class="small">{{ channel[3] }}</p>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-muted small">No channels defined.</p>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- Customer Segments -->
+            <div class="bmc-card area-customer-segments p-3">
+                <h5><i class="fas fa-users me-2"></i>Customer Segments</h5>
+                <div class="bmc-content">
+                    {% if components.customer_segments %}
+                        {% for segment in components.customer_segments %}
+                            <div class="bmc-component">
+                                <h6>{{ segment[2] }}</h6>
+                                <p class="small">{{ segment[3] }}</p>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-muted small">No customer segments defined.</p>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- Cost Structure -->
+            <div class="bmc-card area-cost-structure p-3">
+                <h5><i class="fas fa-file-invoice-dollar me-2"></i>Cost Structure</h5>
+                <div class="bmc-content">
+                    {% if components.cost_structure %}
+                        {% for cost in components.cost_structure %}
+                            <div class="bmc-component">
+                                <div class="d-flex justify-content-between">
+                                    <h6>{{ cost[2] }}</h6>
+                                    <span class="cost-amount badge bg-danger" data-amount="{{ cost[3] }}">
+                                        ${{ '%0.2f'|format(cost[3]|float) }}
+                                    </span>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        <div class="mt-3 p-2 bg-dark">
+                            <div class="d-flex justify-content-between">
+                                <h6>Total Costs:</h6>
+                                <span id="total-cost" class="badge bg-danger">$0.00</span>
+                            </div>
+                        </div>
+                    {% else %}
+                        <p class="text-muted small">No cost structure defined.</p>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- Revenue Streams -->
+            <div class="bmc-card area-revenue-streams p-3">
+                <h5><i class="fas fa-money-bill-wave me-2"></i>Revenue Streams</h5>
+                <div class="bmc-content">
+                    {% if components.revenue_streams %}
+                        {% for revenue in components.revenue_streams %}
+                            <div class="bmc-component">
+                                <div class="d-flex justify-content-between">
+                                    <h6>{{ revenue[2] }}</h6>
+                                    <span class="revenue-amount badge bg-success" data-amount="{{ revenue[3] }}">
+                                        ${{ '%0.2f'|format(revenue[3]|float) }}
+                                    </span>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        <div class="mt-3 p-2 bg-dark">
+                            <div class="d-flex justify-content-between">
+                                <h6>Total Revenue:</h6>
+                                <span id="total-revenue" class="badge bg-success">$0.00</span>
+                            </div>
+                            <div class="d-flex justify-content-between mt-2">
+                                <h6>Profit/Loss:</h6>
+                                <span id="total-profit" class="badge bg-info">$0.00</span>
+                            </div>
+                        </div>
+                    {% else %}
+                        <p class="text-muted small">No revenue streams defined.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Business Model Analysis (only for investors) -->
+{% if current_user.role == 'investor' %}
+<div class="card mt-4">
+    <div class="card-header bg-dark">
+        <h4 class="mb-0"><i class="fas fa-chart-line me-2"></i>Investment Analysis</h4>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-coins me-2"></i>Financial Summary</h5>
+                        <div class="table-responsive">
+                            <table class="table table-sm">
+                                <tbody>
+                                    <tr>
+                                        <th>Total Revenue Streams:</th>
+                                        <td>{{ components.revenue_streams|length }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Total Cost Categories:</th>
+                                        <td>{{ components.cost_structure|length }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Revenue Diversity:</th>
+                                        <td>
+                                            {% if components.revenue_streams|length > 2 %}
+                                                <span class="badge bg-success">High</span>
+                                            {% elif components.revenue_streams|length > 0 %}
+                                                <span class="badge bg-warning">Medium</span>
+                                            {% else %}
+                                                <span class="badge bg-danger">None</span>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-lightbulb me-2"></i>Model Completeness</h5>
+                        <div class="table-responsive">
+                            <table class="table table-sm">
+                                <tbody>
+                                    <tr>
+                                        <th>Customer Focus:</th>
+                                        <td>
+                                            {% if components.customer_segments|length > 0 and components.customer_relationships|length > 0 %}
+                                                <span class="badge bg-success">Strong</span>
+                                            {% elif components.customer_segments|length > 0 or components.customer_relationships|length > 0 %}
+                                                <span class="badge bg-warning">Partial</span>
+                                            {% else %}
+                                                <span class="badge bg-danger">Missing</span>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Value Clarity:</th>
+                                        <td>
+                                            {% if components.value_propositions|length > 0 %}
+                                                <span class="badge bg-success">Defined</span>
+                                            {% else %}
+                                                <span class="badge bg-danger">Undefined</span>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Operational Structure:</th>
+                                        <td>
+                                            {% if components.key_activities|length > 0 and components.key_resources|length > 0 %}
+                                                <span class="badge bg-success">Complete</span>
+                                            {% elif components.key_activities|length > 0 or components.key_resources|length > 0 %}
+                                                <span class="badge bg-warning">Partial</span>
+                                            {% else %}
+                                                <span class="badge bg-danger">Missing</span>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="alert alert-info">
+            <h5><i class="fas fa-info-circle me-2"></i>Investor Notes</h5>
+            <p>This business model shows 
+            {% if components.revenue_streams|length > components.cost_structure|length and components.revenue_streams|length > 0 %}
+                potential for profitability with diverse revenue streams.
+            {% elif components.cost_structure|length > components.revenue_streams|length %}
+                a heavy cost structure that may need optimization.
+            {% elif components.revenue_streams|length == 0 and components.cost_structure|length == 0 %}
+                incomplete financial planning - revenue and cost structures need development.
+            {% else %}
+                a balanced approach to revenues and costs.
+            {% endif %}
+            </p>
+            <p>Market positioning: 
+            {% if components.customer_segments|length > 0 and components.value_propositions|length > 0 %}
+                Well-defined target market with clear value propositions.
+            {% else %}
+                Needs clearer definition of target customers and/or value propositions.
+            {% endif %}
+            </p>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        calculateTotals();
+    });
+</script>
+{% endblock %}

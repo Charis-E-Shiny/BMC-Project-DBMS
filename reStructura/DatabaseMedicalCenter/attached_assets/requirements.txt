@@ -1,0 +1,5 @@
+Flask
+Flask-MySQLdb
+Flask-Login
+Flask-WTF
+WTForms
