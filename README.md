@@ -13,8 +13,8 @@ A **Database Management System (DBMS) project** built to manage and organize dat
 ---
 
 ## 🛠️ Tech Stack
-- **Backend**: PHP / Python / Java
-- **Database**: MySQL
+- **Backend**: Python / Flask
+- **Database**: MySQL / Postgre Sql
 - **Frontend**: HTML, CSS
 - **Tools**: VS Code, Mysql Workbench, pgAdmin4
 
