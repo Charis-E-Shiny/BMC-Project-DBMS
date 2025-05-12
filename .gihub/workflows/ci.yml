@@ -15,7 +15,7 @@ jobs:
       - name: Start the Flask server
         run: |
           pip install -r requirements.txt
-          nohup flask run --host=0.0.0.0 &
+          nohup flask run --host=0.0.0.0 --port=5000 &
 
       - name: Wait for server to start
         run: sleep 5
