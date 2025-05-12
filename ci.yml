@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  health-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Start the Flask server
+        run: |
+          pip install -r requirements.txt
+          nohup flask run --host=0.0.0.0 &
+
+      - name: Wait for server to start
+        run: sleep 5
+
+      - name: Check /health endpoint
+        run: |
+          curl --fail http://127.0.0.1:5000/health
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install flake8
+        run: pip install flake8
+      - name: Run linter
+        run: flake8 .
+
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Run tests
+        run: pytest  # or python -m unittest discover
