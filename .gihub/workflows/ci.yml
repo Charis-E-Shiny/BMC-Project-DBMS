@@ -7,6 +7,7 @@ on:
 
 jobs:
   health-check:
+    name: Health Check  ✅  # This name shows up in "checks"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -25,6 +26,7 @@ jobs:
           curl --fail http://127.0.0.1:5000/health
 
   lint:
+    name: Lint Code  ✅
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -34,6 +36,7 @@ jobs:
         run: flake8 .
 
   tests:
+    name: Run Tests  ✅
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
