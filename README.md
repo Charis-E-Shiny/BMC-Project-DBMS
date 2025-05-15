@@ -26,4 +26,8 @@ A **Database Management System (DBMS) project** built to manage and organize dat
    ```bash
    git clone https://github.com/Charis-E-Shiny/BMC-Project-DBMS.git
    cd BMC-Project-DBMS
+2. **Fork the Repo**
+3. **Bug fix or enhance with proper documentation**
+4. **Create a pull Request to contribute**
 
+Thank you!!
