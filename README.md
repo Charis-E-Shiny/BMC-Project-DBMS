@@ -17,5 +17,20 @@ The **Business Model Canvas** is a strategic management tool used to visually de
 - **Channels**
 - **Cost Structure**
 - **Revenue Streams**
+  
+---
+
+## Features & Benefits
+
+### ✅ Easy to Follow Template
+- BMCs are easy to create — just add and fill in the template to store your Business Model Canvas.
+
+### 👥 Role Management
+- Understand your team based on the role you're signed in as.
+- Grant specific access to users based on their roles.
+
+### 💾 Saved Files
+- Re-edit your stored BMCs anytime to update and improve your models as your business evolves.
+
 
 ---
