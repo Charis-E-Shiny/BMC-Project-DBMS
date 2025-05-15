@@ -8,6 +8,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from forms import LoginForm, SignupForm, BusinessModelForm, ComponentForm
 from models import User, BusinessModel, CustomerSegment, CustomerRelationship, ValueProposition, Channel, RevenueStream, KeyResource, KeyActivity, KeyPartnership, CostStructure
 
+#Test CI
 # Configure logging
 logging.basicConfig(level=logging.DEBUG)
 
